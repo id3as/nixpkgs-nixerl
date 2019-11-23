@@ -1,5 +1,16 @@
 # nixpkgs-nixerl
 
+## Table of Contents
+1. [Introduction](#introduction)
+1. [Status](#status)
+1. [Quick Start](#quick-start)
+1. [Usage and Versioning](#usage-and-versioning)
+1. [Motivation](#motivation)
+1. [Credit](#credit)
+1. [How It Works](#how-it-works)
+1. [FAQ](#faq)
+1. [Getting in Touch](#getting-in-touch)
+
 ## Introduction
 
 Welcome to the nixpkgs-nixerl repository. This repository is
@@ -114,6 +125,20 @@ this repository up-to-date easily when new releases of Erlang are
 tagged in the OTP GitHub repository. For more information, see
 the [How It Works](#how-it-works) section.
 
+## Credit
+The building of the underlying derivations for Erlang and Rebar3 is lifted
+from the [nixpkgs repository][nixpkgs-gh], and the credit for those goes to the authors
+there.
+
+It would be better if I could just use as is, but I wasn't able to find
+a nice way to do that from an overlay.
+
+The obvious mechanism would be to call override on existing derivations,
+but that makes it (as far as I can tell) to write a portable overlay
+because any given version of nixpkgs will have attributes such
+as `erlangR18`, `erlangR19`, `erlangR20`, `erlangR21`, and `erlang`,
+where `erlang` happens to mean Erlang 22 for a specific release of
+nixpkgs.
 
 ## How It Works
 
@@ -136,5 +161,6 @@ if you're not already a member, you can [request to join][erlang-slack-channel-j
 [direnv]: https://direnv.net/
 [direnv-use-nix]: https://direnv.net/man/direnv-stdlib.1.html#codeuse-nix-code
 [semver]: https://semver.org/
+[nixpkgs-gh]: https://github.com/NixOS/nixpkgs
 
 
