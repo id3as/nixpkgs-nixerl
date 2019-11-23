@@ -98,7 +98,7 @@ in
   with nixpkgs;
   mkShell {
     buildInputs = with pkgs; [
-      nixerl.erlang-22-1-8.erlang.override { odbSupport = true; }
+      nixerl.erlang-22-1-8.erlang.override { odbcSupport = true; }
     ];
   }
 ```
