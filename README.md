@@ -9,6 +9,12 @@ R18 onwards.
 The packages in this overlay are not backed by a binary cache,
 so if you choose to use them, Erlang will be compiled from source.
 
+## Status
+
+This overlay is very new, and not yet battle-tested. Feel
+free to use it, but there could be breaking changes going forward,
+for more information, see the [versioning policy](#usage-and-versioning).
+
 ## Quick Start
 
 Overlays can be used multiple ways in a Nix/NixOS environment.
@@ -18,29 +24,23 @@ One way is to use `nix-shell`, an example `shell.nix` would be:
 ```nix
 let
   erlangReleases =
-    builtins.fetchFromGitHub {
-      owner = "nixerl";
-      repo = "nixpkgs-nixerl";
-      rev = "v1.0.0-devel";
-    };
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.0-devel.tar.gz);
 
-  nixPackages =
-    import <nixpkgs> {
-      overlays = [
-        (import erlangReleases)
-      ];
-    };
+  nixpkgs =
+    import <nixpkgs> { overlays = [ erlangReleases ]; };
 
 in
+  with nixpkgs;
+  mkShell {
+    buildInputs = with pkgs; [
 
-with nixPackages;
+      # Provide Erlang 22.1.8
+      erlang-releases.erlang-22-1-8.erlang;
 
-mkShell {
-  buildInputs = [
-    pkgs.devPackages.erlang-22-0-1.erlang
-    pkgs.devPackages.erlang-22-0-1.rebar3-9
-  ];
-}
+      # Provide Rebar 3.12, built with Erlang 22.1.8
+      erlang-releases.erlang-22-1-8.rebar-3-12;
+    ];
+  }
 ```
 
 That shell could then be used a number of ways, for example:
@@ -54,9 +54,45 @@ it on for `bash`/`zsh` is supported out of the box.
 
 ## Usage and Versioning
 
-Topics to discuss:
-1. Structure of attributes
-2. Semver
+This overlay yields the following structure:
+
+```
+  <nixpkgs>
+  |
+  |- pkgs
+  |  |
+  |  |- erlang-releases                 (a set added by this overlay)
+  |  |  |
+  |  |  |- <release-number>             (one set per release of Erlang)
+  |  |  |  |
+  |  |  |  |- erlang                    (a standard build of Erlang, sans Java and ODBC)
+  |  |  |  |
+  |  |  |  |- rebar-<version-number>    (one derivation per release of rebar3)
+  |  |  |  |
+```
+
+Both the erlang derivation, and the rebar3 derivations in a release are overridable, so,
+for example, to get a release of Erlang which has support for ODBC, one can do:
+
+```nix
+let
+  erlangReleases =
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.0-devel.tar.gz);
+
+  nixpkgs =
+    import <nixpkgs> { overlays = [ erlangReleases ]; };
+
+in
+  with nixpkgs;
+  mkShell {
+    buildInputs = with pkgs; [
+      erlang-releases.erlang-22-1-8.erlang.override { withODBC = true; };
+    ];
+  }
+```
+
+This repository is versioned with [semver][semver], if the attribute structure ever
+changes, the major version number will change as well.
 
 
 ## Motivation
@@ -98,4 +134,5 @@ if you're not already a member, you can [request to join][erlang-slack-channel-j
 [erlang-slack-channel-join]: https://bit.ly/ErlangSlack
 [erlang-slack-channel-profile]: https://erlanger.slack.com/team/U0ZGJ4H8U
 [direnv]: https://direnv.net/
+[semver]: https://semver.org/
 
