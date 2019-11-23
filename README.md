@@ -46,7 +46,7 @@ in
 That shell could then be used a number of ways, for example:
 1. Running `nix-shell` in the same directory as the `shell.nix` file.
 2. Running `nix-shell the-path-to/shell.nix`.
-3. Using [`direnv`][direnv] with it's built-in `use_nix` command.
+3. Using [`direnv`][direnv] with its built-in `use_nix` command.
 
 Using `direnv` with Nix feels a lot like magic, I'd highly recommend
 trying it out to see if it works for you. If you're using NixOS, turning
