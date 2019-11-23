@@ -91,7 +91,7 @@ in
   }
 ```
 
-This repository is versioned with [semver][semver], if the attribute structure ever
+This repository is versioned with [semver][semver]; if the attribute structure ever
 changes, the major version number will change as well.
 
 
