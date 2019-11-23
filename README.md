@@ -4,7 +4,8 @@
 1. [Introduction](#introduction)
 1. [Status](#status)
 1. [Quick Start](#quick-start)
-1. [Usage and Versioning](#usage-and-versioning)
+1. [Usage](#usage)
+1. [Versioning](#versioning)
 1. [Motivation](#motivation)
 1. [Credit](#credit)
 1. [How It Works](#how-it-works)
@@ -24,7 +25,7 @@ so if you choose to use them, Erlang will be compiled from source.
 
 This overlay is very new, and not yet battle-tested. Feel
 free to use it, but there could be breaking changes going forward,
-for more information, see the [versioning policy](#usage-and-versioning).
+for more information, see the [versioning policy](#versioning).
 
 ## Quick Start
 
@@ -63,7 +64,7 @@ Using `direnv` with Nix feels a lot like magic, I'd highly recommend
 trying it out to see if it works for you. If you're using NixOS, turning
 it on for `bash`/`zsh` is supported out of the box.
 
-## Usage and Versioning
+## Usage
 
 This overlay yields the following structure:
 
@@ -117,6 +118,7 @@ Some of the overridable options are:
 | wxSupport            | true    |
 
 
+## Versioning
 This repository is versioned with [semver][semver]; if the attribute structure ever
 changes, the major version number will change as well.
 
