@@ -13,9 +13,7 @@ let
 
       erlangDerivation = erlangManifestEntryToDerivation args;
 
-      rebar3Derivations = [];
-
-      allDerivations = [ { name = "erlang"; value = erlangDerivation; } ] ++ rebar3Derivations;
+      allDerivations = [ { name = "erlang"; value = erlangDerivation; } ];
     in
     {
       inherit name;

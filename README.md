@@ -8,7 +8,6 @@
 1. [Versioning](#versioning)
 1. [Motivation](#motivation)
 1. [Credit](#credit)
-1. [How It Works](#how-it-works)
 1. [FAQ](#faq)
 1. [Getting in Touch](#getting-in-touch)
 
@@ -26,6 +25,12 @@ so if you choose to use them, Erlang will be compiled from source.
 This overlay is very new, and not yet battle-tested. Feel
 free to use it, but there could be breaking changes going forward,
 for more information, see the [versioning policy](#versioning).
+
+There are a couple of things I'm still working on before I'm willing to
+declare a stable release:
+
+1. Adding rebar3 releases so that one can ask for a specific version built against a particular version of Erlang.
+2. Pulling in the sha256 for each of the releases.
 
 ## Quick Start
 
@@ -48,9 +53,6 @@ in
 
       # Provide Erlang 22.1.8
       nixerl.erlang-22-1-8.erlang
-
-      # Provide Rebar 3.12, built with Erlang 22.1.8
-      nixerl.erlang-22-1-8.rebar-3-12
     ];
   }
 ```
@@ -79,11 +81,9 @@ This overlay yields the following structure:
   |  |  |  |
   |  |  |  |- erlang                    (a standard build of Erlang, sans Java and ODBC)
   |  |  |  |
-  |  |  |  |- rebar-<version-number>    (one derivation per release of rebar3)
-  |  |  |  |
 ```
 
-Both the erlang derivation, and the rebar3 derivations in a release are overridable, so,
+The erlang derivationd derivation in a release is overridable, so,
 for example, to get a release of Erlang which has support for ODBC, one can do:
 
 ```nix
@@ -139,11 +139,10 @@ far easier by simply providing access to every release of Erlang.
 
 I've also written a quick and dirty utility which can be used to keep
 this repository up-to-date easily when new releases of Erlang are
-tagged in the OTP GitHub repository. For more information, see
-the [How It Works](#how-it-works) section.
+tagged in the OTP GitHub repository.
 
 ## Credit
-The building of the underlying derivations for Erlang and Rebar3 is lifted
+The building of the underlying derivation for Erlang is lifted
 from the [nixpkgs repository][nixpkgs-gh], and the credit for those goes to the authors
 there.
 
@@ -156,8 +155,6 @@ because any given version of nixpkgs will have attributes such
 as `erlangR18`, `erlangR19`, `erlangR20`, `erlangR21`, and `erlang`,
 where `erlang` happens to mean Erlang 22 for a specific release of
 nixpkgs.
-
-## How It Works
 
 ## FAQ
 
