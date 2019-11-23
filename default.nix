@@ -1,24 +1,51 @@
-super: self:
+self: super:
 let
+  erlangLib = (import ./lib/imported-from-nixpkgs/development/beam-modules/lib.nix) self super;
+
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 
-  erlangDerivations =
-    builtins.map erlangManifestEntryToDerivation erlangManifest;
+  erlangReleases =
+    builtins.map erlangManifestEntryToRelease erlangManifest;
 
-    erlangManifestEntryToDerivation = { version, rev }:
+  erlangManifestEntryToRelease = { version, rev }@args:
     let
-      name = "erlang-" + (builtins.replaceStrings ["."] ["-"] version);
+      name = "release-" + (builtins.replaceStrings ["."] ["-"] version);
+
+      erlangDerivation = erlangManifestEntryToDerivation args;
+
+      rebar3Derivations = [];
+
+      allDerivations = [ { name = "erlang"; value = erlangDerivation; } ] ++ rebar3Derivations;
     in
     {
       inherit name;
-      value = {
-        inherit version rev;
-      };
+      value = builtins.listToAttrs allDerivations;
     };
 
-  allDerivations = erlangDerivations;
+  erlangManifestEntryToDerivation = { version, rev }:
+    let
+      majorVersion = super.lib.versions.major version;
 
-  result = builtins.listToAttrs allDerivations;
+      baseDerivation =
+        if majorVersion == "18" then
+          erlangLib.callErlang ./lib/imported-from-nixpkgs/development/interpreters/erlang/R18.nix {
+            wxGTK = self.wxGTK30;
+            openssl = self.openssl_1_0_2;
+          }
+        else if majorVersion == "19" then
+          {}
+        else if majorVersion == "20" then
+          {}
+        else if majorVersion == "21" then
+          {}
+        else if majorVersion == "22" then
+          {}
+        else
+          throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
+    in
+    baseDerivation.override { inherit version; };
 
 in
-  result
+  {
+    erlang-releases = (super.erlang-releases or {}) // (builtins.listToAttrs erlangReleases);
+  }
