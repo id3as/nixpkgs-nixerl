@@ -35,10 +35,10 @@ in
     buildInputs = with pkgs; [
 
       # Provide Erlang 22.1.8
-      erlang-releases.erlang-22-1-8.erlang;
+      erlang-releases.erlang-22-1-8.erlang
 
       # Provide Rebar 3.12, built with Erlang 22.1.8
-      erlang-releases.erlang-22-1-8.rebar-3-12;
+      erlang-releases.erlang-22-1-8.rebar-3-12
     ];
   }
 ```
@@ -86,7 +86,7 @@ in
   with nixpkgs;
   mkShell {
     buildInputs = with pkgs; [
-      erlang-releases.erlang-22-1-8.erlang.override { withODBC = true; };
+      erlang-releases.erlang-22-1-8.erlang.override { withODBC = true; }
     ];
   }
 ```
