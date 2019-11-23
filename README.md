@@ -16,7 +16,31 @@ Overlays can be used multiple ways in a Nix/NixOS environment.
 One way is to use `nix-shell`, an example `shell.nix` would be:
 
 ```nix
-insert example here
+let
+  erlangReleases =
+    builtins.fetchFromGitHub {
+      owner = "nixerl";
+      repo = "nixpkgs-nixerl";
+      rev = "v1.0.0-devel";
+    };
+
+  nixPackages =
+    import <nixpkgs> {
+      overlays = [
+        (import erlangReleases)
+      ];
+    };
+
+in
+
+with nixPackages;
+
+mkShell {
+  buildInputs = [
+    pkgs.devPackages.erlang-22-0-1.erlang
+    pkgs.devPackages.erlang-22-0-1.rebar3-9
+  ];
+}
 ```
 
 That shell could then be used a number of ways, for example:
@@ -27,6 +51,13 @@ That shell could then be used a number of ways, for example:
 Using `direnv` with Nix feels a lot like magic, I'd highly recommend
 trying it out to see if it works for you. If you're using NixOS, turning
 it on for `bash`/`zsh` is supported out of the box.
+
+## Usage and Versioning
+
+Topics to discuss:
+1. Structure of attributes
+2. Semver
+
 
 ## Motivation
 
