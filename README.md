@@ -94,8 +94,8 @@ if you're not already a member, you can [request to join][erlang-slack-channel-j
 
 
 
-[erlang-slack-channel] https://erlanger.slack.com/
-[erlang-slack-channel-join] https://bit.ly/ErlangSlack
-[erlang-slack-channel-profile] https://erlanger.slack.com/team/U0ZGJ4H8U
-[direnv] https://direnv.net/
+[erlang-slack-channel]: https://erlanger.slack.com/
+[erlang-slack-channel-join]: https://bit.ly/ErlangSlack
+[erlang-slack-channel-profile]: https://erlanger.slack.com/team/U0ZGJ4H8U
+[direnv]: https://direnv.net/
 
