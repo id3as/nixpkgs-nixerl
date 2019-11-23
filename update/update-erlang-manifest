@@ -5,12 +5,11 @@ set -o pipefail
 
 main() {
   git ls-remote --tags --refs git@github.com:erlang/otp "OTP-*" \
-    | awk 'BEGIN {ORS=""} match($0, /OTP-(([0-9]+)(.[0-9]+)*(-[0-9a-zA-Z]*){0,1})$/, ary) {print ",{\"version\": \"" ary[1] "\", \"rev\": \"" $1 "\"}"}' \
+    | gawk 'BEGIN {ORS=""} match($0, /OTP-(([0-9]+)(.[0-9]+)*(-[0-9a-zA-Z]*){0,1})$/, ary) {print ",{\"version\": \"" ary[1] "\", \"rev\": \"" $1 "\"}"}' \
     | tail -c +2 \
     | sed 's/^\(.*\)$/[\1]/' \
     | jq . \
-    | > $(dirname "${BASH_SOURCE[0]}")/../manifest.json
+    > $(dirname "${BASH_SOURCE[0]}")/../erlang-manifest.json
 }
 
 main "${@}"
-
