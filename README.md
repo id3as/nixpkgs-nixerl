@@ -46,7 +46,7 @@ in
 That shell could then be used a number of ways, for example:
 1. Running `nix-shell` in the same directory as the `shell.nix` file.
 2. Running `nix-shell the-path-to/shell.nix`.
-3. Using [`direnv`][direnv] with its built-in `use_nix` command.
+3. Using [`direnv`][direnv] with its built-in [`use nix`][direnv-use-nix] command.
 
 Using `direnv` with Nix feels a lot like magic, I'd highly recommend
 trying it out to see if it works for you. If you're using NixOS, turning
@@ -134,5 +134,7 @@ if you're not already a member, you can [request to join][erlang-slack-channel-j
 [erlang-slack-channel-join]: https://bit.ly/ErlangSlack
 [erlang-slack-channel-profile]: https://erlanger.slack.com/team/U0ZGJ4H8U
 [direnv]: https://direnv.net/
+[direnv-use-nix]: https://direnv.net/man/direnv-stdlib.1.html#codeuse-nix-code
 [semver]: https://semver.org/
+
 
