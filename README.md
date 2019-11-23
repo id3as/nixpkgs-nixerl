@@ -130,11 +130,11 @@ The building of the underlying derivations for Erlang and Rebar3 is lifted
 from the [nixpkgs repository][nixpkgs-gh], and the credit for those goes to the authors
 there.
 
-It would be better if I could just use as is, but I wasn't able to find
+It would be better if I could just use those as is, but I wasn't able to find
 a nice way to do that from an overlay.
 
 The obvious mechanism would be to call override on existing derivations,
-but that makes it (as far as I can tell) to write a portable overlay
+but that makes it impossible (as far as I can tell) to write a portable overlay,
 because any given version of nixpkgs will have attributes such
 as `erlangR18`, `erlangR19`, `erlangR20`, `erlangR21`, and `erlang`,
 where `erlang` happens to mean Erlang 22 for a specific release of
