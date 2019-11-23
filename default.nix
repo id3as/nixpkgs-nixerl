@@ -9,7 +9,7 @@ let
 
   erlangManifestEntryToRelease = { version, rev }@args:
     let
-      name = "release-" + (builtins.replaceStrings ["."] ["-"] version);
+      name = "erlang-" + (builtins.replaceStrings ["."] ["-"] version);
 
       erlangDerivation = erlangManifestEntryToDerivation args;
 
@@ -56,5 +56,5 @@ let
 
 in
   {
-    erlang-releases = (super.erlang-releases or {}) // (builtins.listToAttrs erlangReleases);
+    nixerl = (super.nixerl or {}) // (builtins.listToAttrs erlangReleases);
   }

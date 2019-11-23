@@ -46,10 +46,10 @@ in
     buildInputs = with pkgs; [
 
       # Provide Erlang 22.1.8
-      erlang-releases.erlang-22-1-8.erlang
+      nixerl.erlang-22-1-8.erlang
 
       # Provide Rebar 3.12, built with Erlang 22.1.8
-      erlang-releases.erlang-22-1-8.rebar-3-12
+      nixerl.erlang-22-1-8.rebar-3-12
     ];
   }
 ```
@@ -72,9 +72,9 @@ This overlay yields the following structure:
   |
   |- pkgs
   |  |
-  |  |- erlang-releases                 (a set added by this overlay)
+  |  |- nixerl                          (a set added by this overlay)
   |  |  |
-  |  |  |- <release-number>             (one set per release of Erlang)
+  |  |  |- erlang-<release-number>      (one set per release of Erlang)
   |  |  |  |
   |  |  |  |- erlang                    (a standard build of Erlang, sans Java and ODBC)
   |  |  |  |
@@ -97,10 +97,25 @@ in
   with nixpkgs;
   mkShell {
     buildInputs = with pkgs; [
-      erlang-releases.erlang-22-1-8.erlang.override { withODBC = true; }
+      nixerl.erlang-22-1-8.erlang.override { odbSupport = true; }
     ];
   }
 ```
+
+Some of the overridable options are:
+
+
+| Option               | Default |
+| ---------------------|---------|
+| enableHipe           | false   |
+| enableDebugInfo      | false   |
+| enableThreads        | true    |
+| enableSmpSupport     | true    |
+| enableKernelPoll     | true    |
+| javacSupport         | false   |
+| odbcSupport          | false   |
+| wxSupport            | true    |
+
 
 This repository is versioned with [semver][semver]; if the attribute structure ever
 changes, the major version number will change as well.
