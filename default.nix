@@ -26,27 +26,15 @@ let
 
       baseDerivation =
         if majorVersion == "18" then
-          erlangLib.callErlang ./lib/imported-from-nixpkgs/development/interpreters/erlang/R18.nix {
-            wxGTK = self.wxGTK30;
-            openssl = self.openssl_1_0_2;
-          }
+          self.beam.interpreters.erlangR18
         else if majorVersion == "19" then
-          erlangLib.callErlang ./lib/imported-from-nixpkgs/development/interpreters/erlang/R19.nix {
-            wxGTK = self.wxGTK30;
-            openssl = self.openssl_1_0_2;
-          }
+          self.beam.interpreters.erlangR19
         else if majorVersion == "20" then
-          erlangLib.callErlang ./lib/imported-from-nixpkgs/development/interpreters/erlang/R20.nix {
-            wxGTK = self.wxGTK30;
-          }
+          self.beam.interpreters.erlangR20
         else if majorVersion == "21" then
-          erlangLib.callErlang ./lib/imported-from-nixpkgs/development/interpreters/erlang/R21.nix {
-            wxGTK = self.wxGTK30;
-          }
+          self.beam.interpreters.erlangR21
         else if majorVersion == "22" then
-          erlangLib.callErlang ./lib/imported-from-nixpkgs/development/interpreters/erlang/R22.nix {
-            wxGTK = self.wxGTK30;
-          }
+          self.beam.interpreters.erlangR22
         else
           throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
     in

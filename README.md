@@ -18,13 +18,16 @@ a Nix Overlay which provides access to Erlang releases from
 R18 onwards.
 
 The packages in this overlay are not backed by a binary cache,
-so if you choose to use them, Erlang will be compiled from source.
+so if you choose to use them, Erlang will be compiled from source - the exception
+being if you happen to choose the version that is already part of nixpkgs.
 
 ## Status
 
-This overlay is very new, and not yet battle-tested. Feel
-free to use it, but there could be breaking changes going forward,
-for more information, see the [versioning policy](#versioning).
+This overlay is built on top of the derivations inside nixpkgs, and as such should
+work reasonably well. However, it is not yet battle-tested. Feel
+free to use it, but there could be breaking changes going forward - for example, the
+attribute structure isn't necessarily nailed down yet.
+For more information, see the [versioning policy](#versioning).
 
 There are a couple of things I'm still working on before I'm willing to
 declare a stable release:
@@ -41,7 +44,7 @@ One way is to use `nix-shell`, an example `shell.nix` would be:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.0-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.1-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
@@ -83,13 +86,13 @@ This overlay yields the following structure:
   |  |  |  |
 ```
 
-The erlang derivationd derivation in a release is overridable, so,
-for example, to get a release of Erlang which has support for ODBC, one can do:
+The erlang derivation in a release is overridable, so, for example, to get
+a release of Erlang which has support for ODBC, one can do:
 
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.0-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.1-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
@@ -128,33 +131,24 @@ changes, the major version number will change as well.
 So, why does this overlay exist? Erlang is already part of `nixpkgs`, so
 what need is there for this?
 
-For me, this fills a particular niche. The Erlang packages available in
-`nixpkgs` are of a high quality - and indeed I've used the code from
-`nixpkgs` to implement this overlay, however, I frequently finding myself
+For me, this fills a particular niche - I frequently finding myself
 needing to use a specific version of Erlang.
 
 That is something that can be achieved using nix's override facility,
 and I used that approach for a while, this overlay however makes that
-far easier by simply providing access to every release of Erlang.
+far easier by simply providing access to every release of Erlang -
+before coming to nix, I used [kerl][kerl] extensively, and wanted something
+similar for nix.
 
 I've also written a quick and dirty utility which can be used to keep
 this repository up-to-date easily when new releases of Erlang are
 tagged in the OTP GitHub repository.
 
 ## Credit
-The building of the underlying derivation for Erlang is lifted
-from the [nixpkgs repository][nixpkgs-gh], and the credit for those goes to the authors
-there.
 
-It would be better if I could just use those as is, but I wasn't able to find
-a nice way to do that from an overlay.
+The building of the underlying derivation for Erlang is inherited directly from nixpkgs
+and the credit for that goes to the authors there.
 
-The obvious mechanism would be to call override on existing derivations,
-but that makes it impossible (as far as I can tell) to write a portable overlay,
-because any given version of nixpkgs will have attributes such
-as `erlangR18`, `erlangR19`, `erlangR20`, `erlangR21`, and `erlang`,
-where `erlang` happens to mean Erlang 22 for a specific release of
-nixpkgs.
 
 ## FAQ
 
@@ -176,5 +170,6 @@ if you're not already a member, you can [request to join][erlang-slack-channel-j
 [direnv-use-nix]: https://direnv.net/man/direnv-stdlib.1.html#codeuse-nix-code
 [semver]: https://semver.org/
 [nixpkgs-gh]: https://github.com/NixOS/nixpkgs
+[kerl]: https://github.com/kerl/kerl
 
 
