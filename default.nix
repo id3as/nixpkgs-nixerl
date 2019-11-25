@@ -13,7 +13,10 @@ let
 
       erlangDerivation = erlangManifestEntryToDerivation args;
 
-      allDerivations = [ { name = "erlang"; value = erlangDerivation; } ];
+      allDerivations = [
+        { name = "erlang"; value = erlangDerivation; }
+        { name = "rebar3"; value = self.beam.packages.erlang.rebar3.override{ erlang = erlangDerivation; }; }
+      ];
     in
     {
       inherit name;

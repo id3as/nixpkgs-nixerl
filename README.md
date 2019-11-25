@@ -44,7 +44,7 @@ One way is to use `nix-shell`, an example `shell.nix` would be:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.1-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.2-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
@@ -56,6 +56,9 @@ in
 
       # Provide Erlang 22.1.8
       nixerl.erlang-22-1-8.erlang
+
+      # Provide the nixpkgs version of Rebar3 built using Erlang 22.1.8
+      nixerl.erlang-22-1-8.rebar3
     ];
   }
 ```
@@ -84,6 +87,8 @@ This overlay yields the following structure:
   |  |  |  |
   |  |  |  |- erlang                    (a standard build of Erlang, sans Java and ODBC)
   |  |  |  |
+  |  |  |  |- rebar3                    (the nixpkgs of erlang, built using the sibling erlang release)
+  |  |  |  |
 ```
 
 The erlang derivation in a release is overridable, so, for example, to get
@@ -92,7 +97,7 @@ a release of Erlang which has support for ODBC, one can do:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.1-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.2-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
