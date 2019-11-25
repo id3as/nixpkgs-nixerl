@@ -87,7 +87,7 @@ This overlay yields the following structure:
   |  |  |  |
   |  |  |  |- erlang                    (a standard build of Erlang, sans Java and ODBC)
   |  |  |  |
-  |  |  |  |- rebar3                    (the nixpkgs of erlang, built using the sibling erlang release)
+  |  |  |  |- rebar3                    (the nixpkgs of rebar3, built using the sibling Erlang release)
   |  |  |  |
 ```
 
