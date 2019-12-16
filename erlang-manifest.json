@@ -938,5 +938,9 @@
   {
     "version": "22.1.8",
     "rev": "f29c8c73911e9af99b14ef68d533e959dadaa002"
+  },
+  {
+    "version": "22.2",
+    "rev": "edbf94a976e3875d9c5bd4966b53f819dd6f08bd"
   }
 ]
