@@ -1,0 +1,8 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p nix-prefetch-github jq
+set -euo pipefail
+
+declare -r version=${1}
+declare -r revision=${2}
+
+nix-prefetch-github erlang otp --rev 486c36b031478ddc009ca57b4bd57846812c7aef | jq -r '.sha256'
