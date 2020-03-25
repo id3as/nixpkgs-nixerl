@@ -1,14 +1,16 @@
 #! /usr/bin/env nix-shell
-#! nix-shell --pure --keep HOME --keep SSH_AUTH_SOCK -i bash -p git coreutils jq
+#! nix-shell -i bash -p git coreutils jq
 set -eu
 set -o pipefail
 
 main() {
-  git ls-remote --tags --refs git@github.com:erlang/otp "OTP-*" \
-    | gawk 'BEGIN {ORS=""} match($0, /OTP-(([0-9]+)(.[0-9]+)*(-[0-9a-zA-Z]*){0,1})$/, ary) {print ",{\"version\": \"" ary[1] "\", \"rev\": \"" $1 "\"}"}' \
-    | tail -c +2 \
-    | sed 's/^\(.*\)$/[\1]/' \
-    | jq . \
+
+	# Make sure our version-metadata JSON files are up-to-date
+	git ls-remote --tags --refs https://github.com/erlang/otp "OTP-*" \
+		| gawk -f versions.awk
+
+	# Build our manifest
+	jq '[ .[] | { version: .version, rev: .rev, sha256: .sha256 } ]' -s $(dirname "${BASH_SOURCE[0]}")/version-metadata/* \
     > $(dirname "${BASH_SOURCE[0]}")/../erlang-manifest.json
 }
 

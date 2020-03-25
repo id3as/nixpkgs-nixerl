@@ -29,11 +29,9 @@ free to use it, but there could be breaking changes going forward - for example,
 attribute structure isn't necessarily nailed down yet.
 For more information, see the [versioning policy](#versioning).
 
-There are a couple of things I'm still working on before I'm willing to
-declare a stable release:
-
-1. Adding rebar3 releases so that one can ask for a specific version built against a particular version of Erlang.
-2. Pulling in the sha256 for each of the releases.
+One thing I am still working on before I'm happy to declare a stable release
+is to support different rebar3 such that one can ask for a specific version
+built against a particular version of Erlang.
 
 ## Quick Start
 

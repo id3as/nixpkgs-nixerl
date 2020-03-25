@@ -7,7 +7,7 @@ let
   erlangReleases =
     builtins.map erlangManifestEntryToRelease erlangManifest;
 
-  erlangManifestEntryToRelease = { version, rev }@args:
+  erlangManifestEntryToRelease = { version, rev, sha256 }@args:
     let
       name = "erlang-" + (builtins.replaceStrings ["."] ["-"] version);
 
@@ -23,7 +23,7 @@ let
       value = builtins.listToAttrs allDerivations;
     };
 
-  erlangManifestEntryToDerivation = { version, rev }:
+  erlangManifestEntryToDerivation = { version, rev, sha256 }:
     let
       majorVersion = super.lib.versions.major version;
 
@@ -41,7 +41,7 @@ let
         else
           throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
     in
-    baseDerivation.override { inherit version; };
+    baseDerivation.override { inherit version sha256; };
 
 in
   {

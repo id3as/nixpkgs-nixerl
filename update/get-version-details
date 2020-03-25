@@ -5,4 +5,40 @@ set -euo pipefail
 declare -r version=${1}
 declare -r revision=${2}
 
-nix-prefetch-github erlang otp --rev 486c36b031478ddc009ca57b4bd57846812c7aef | jq -r '.sha256'
+declare -r version_dir="$(dirname "${BASH_SOURCE[0]}")/version-metadata"
+declare -r version_file="${version_dir}/${version}.json"
+
+if [[ ! -d "${version_dir}" ]]
+then
+	mkdir "${version_dir}"
+fi
+
+if [[ ! -f "${version_file}" ]]
+then
+	temp_file=$(mktemp)
+	nix-prefetch-github erlang otp --rev "OTP-${version}" | jq "{ \"\$nix-erl-version\": \"1\", version: \"${version}\" } + ." > "${temp_file}"
+	mv "${temp_file}" "${version_file}"
+fi
+
+declare file_contents=$(<"${version_file}")
+declare requires_upgrade=false
+
+if ! printf "%s" "${file_contents}" | jq --exit-status '.version' > /dev/null;
+then
+  file_contents=$(printf "%s" "${file_contents}" | jq "{ version: \"${version}\" } + .")
+  requires_upgrade=true
+fi
+
+if ! printf "%s" "${file_contents}" | jq --exit-status '.["$nix-erl-version"]' > /dev/null;
+then
+  file_contents=$(printf "%s" "${file_contents}" | jq '{ "$nix-erl-version": "1" } + .')
+  requires_upgrade=true
+fi
+
+if [[ "${requires_upgrade}" == "true" ]]
+then
+  printf "%s" "${file_contents}" > "${version_file}"
+fi
+
+
+jq -r '.sha256' < "${version_file}"

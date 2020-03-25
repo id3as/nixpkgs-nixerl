@@ -1,0 +1,8 @@
+{
+  "$nix-erl-version": "1",
+  "version": "21.3.8.14",
+  "owner": "erlang",
+  "repo": "otp",
+  "rev": "8c27af949727bc5569b52d28dc4bf4a434d4f67d",
+  "sha256": "1wczrhhx6hfy8wzxbq6vinyp4z0jsrlmcpvi1vgxmwm38ck3gjcw"
+}
