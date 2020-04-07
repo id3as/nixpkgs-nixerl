@@ -42,7 +42,7 @@ One way is to use `nix-shell`, an example `shell.nix` would be:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.4-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.5-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
@@ -95,7 +95,7 @@ a release of Erlang which has support for ODBC, one can do:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.4-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.5-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
@@ -104,7 +104,7 @@ in
   with nixpkgs;
   mkShell {
     buildInputs = with pkgs; [
-      nixerl.erlang-22-2.erlang.override { odbcSupport = true; }
+      (nixerl.erlang-22-2.erlang.override { odbcSupport = true; })
     ];
   }
 ```
