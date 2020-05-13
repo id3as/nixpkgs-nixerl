@@ -21,6 +21,13 @@ The packages in this overlay are not backed by a binary cache,
 so if you choose to use them, Erlang will be compiled from source - the exception
 being if you happen to choose the version that is already part of nixpkgs.
 
+### R17 and R23
+As of v1.0.9-devel, this overlay also includes experimental support for R17 and R23,
+neither of which are currently supported by nixpkgs. In the case of R17, we override the R18
+derivation as a basis for the build, and that seems to work. In the case of R23, we override the
+R22 derivation as the basis, which again, seems to work. If there are issues with this, we'll
+see about doing something different.
+
 ## Status
 
 This overlay is built on top of the derivations inside nixpkgs, and as such should
@@ -42,7 +49,7 @@ One way is to use `nix-shell`, an example `shell.nix` would be:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.8-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.9-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
@@ -95,7 +102,7 @@ a release of Erlang which has support for ODBC, one can do:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.8-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.9-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
