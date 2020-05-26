@@ -22,7 +22,7 @@ so if you choose to use them, Erlang will be compiled from source - the exceptio
 being if you happen to choose the version that is already part of nixpkgs.
 
 ### R17 and R23
-As of v1.0.9-devel, this overlay also includes experimental support for R17 and R23,
+This overlay also includes experimental support for R17 and R23,
 neither of which are currently supported by nixpkgs. In the case of R17, we override the R18
 derivation as a basis for the build, and that seems to work. In the case of R23, we override the
 R22 derivation as the basis, which again, seems to work. If there are issues with this, we'll
@@ -49,7 +49,7 @@ One way is to use `nix-shell`, an example `shell.nix` would be:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.9-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.10-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
@@ -102,7 +102,7 @@ a release of Erlang which has support for ODBC, one can do:
 ```nix
 let
   erlangReleases =
-    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.9-devel.tar.gz);
+    import (builtins.fetchTarball https://github.com/nixerl/nixpkgs-nixerl/archive/v1.0.10-devel.tar.gz);
 
   nixpkgs =
     import <nixpkgs> { overlays = [ erlangReleases ]; };
