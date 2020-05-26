@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+main() {
+  read -r major minor patch label <<< "$(git describe HEAD --abbrev=0 | cut -c 2- | awk 'BEGIN{FS="[.-]"} {print $1,$2,$3,$4}')"
+
+  new_patch=$((patch + 1))
+  new_version=v${major}.${minor}.${new_patch}-${label}
+
+  sed -i "s|v[0-9]*\.[0-9]*\.[0.9]-[-a-z]*|${new_version}|g" ./README.md
+
+  new_versions=$(git diff -U0 erlang-manifest.json | sed -n 's|^+ *"version": "\([^"]*\)".*|\1|p' | awk '{printf (NR>1?", ":"") $1}')
+
+  git add \
+    README.md \
+    erlang-manifest.json \
+    update/version-metadata/
+
+  git commit -m "Added ${new_versions}."
+  git tag -s -m "Added ${new_versions}." "${new_version}"
+}
+
+main
+
