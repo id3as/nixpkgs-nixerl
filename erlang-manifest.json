@@ -1280,6 +1280,11 @@
     "sha256": "1mbz1skrs3l1kvqa3gwsdrjfr0mh9kmkql2n4z2al2qrg5m4ajkj"
   },
   {
+    "version": "22.3.4.2",
+    "rev": "5664ccc8f9bbe6d22e4d088e85386cd7ffcee120",
+    "sha256": "0xkax557qaznac5ad2r8kwlqv0ly4d770vifnl8w99a2p50la02r"
+  },
+  {
     "version": "22.3.4",
     "rev": "6d5a5f31c36bbdaad21585d25974177bd1b75e66",
     "sha256": "1cyqrkjcfpxwzqjsa46ga7xp84bvcp2xkryf3wm4jxb1z2b1hmyp"
