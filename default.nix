@@ -1,6 +1,6 @@
 self: super:
 let
-  erlangLib = (import ./lib/imported-from-nixpkgs/development/beam-modules/lib.nix) self super;
+  rebar3-13 = (import ./rebar3/rebar3-13.nix);
 
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 
@@ -8,46 +8,55 @@ let
     builtins.map erlangManifestEntryToRelease erlangManifest;
 
   erlangManifestEntryToRelease = { version, rev, sha256 }@args:
-    let
-      name = "erlang-" + (builtins.replaceStrings ["."] ["-"] version);
-
-      erlangDerivation = erlangManifestEntryToDerivation args;
-
-      allDerivations = [
-        { name = "erlang"; value = erlangDerivation; }
-        { name = "rebar3"; value = self.beam.packages.erlang.rebar3.override{ erlang = erlangDerivation; }; }
-      ];
-    in
     {
-      inherit name;
-      value = builtins.listToAttrs allDerivations;
+      name = "erlang-" + (builtins.replaceStrings ["."] ["-"] version);
+      value = erlangAndRebar args;
     };
 
-  erlangManifestEntryToDerivation = { version, rev, sha256 }:
+  erlangAndRebar = { version, rev, sha256 }:
     let
       majorVersion = super.lib.versions.major version;
-
-      baseDerivation =
-        if majorVersion == "17" then
-          # Unsupported, but seems to work
-          self.beam.interpreters.erlangR18
-        else if majorVersion == "18" then
-          self.beam.interpreters.erlangR18
-        else if majorVersion == "19" then
-          self.beam.interpreters.erlangR19
-        else if majorVersion == "20" then
-          self.beam.interpreters.erlangR20
-        else if majorVersion == "21" then
-          self.beam.interpreters.erlangR21
-        else if majorVersion == "22" then
-          self.beam.interpreters.erlangR22
-        else if majorVersion == "23" then
-          # nixpkgs doesn't have an R23 yet
-          self.beam.interpreters.erlangR22
-        else
-          throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
     in
-    baseDerivation.override { inherit version sha256; };
+      if majorVersion == "17" then
+        # Unsupported, but seems to work
+        rec {
+          erlang = self.beam.interpreters.erlangR18.override { inherit version sha256; };
+          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+        }
+      else if majorVersion == "18" then
+        rec {
+          erlang = self.beam.interpreters.erlangR18.override { inherit version sha256; };
+          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+        }
+      else if majorVersion == "19" then
+        rec {
+          erlang = self.beam.interpreters.erlangR19.override { inherit version sha256; };
+          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+        }
+      else if majorVersion == "20" then
+        rec {
+          erlang = self.beam.interpreters.erlangR20.override { inherit version sha256; };
+          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+        }
+      else if majorVersion == "21" then
+        rec {
+          erlang = self.beam.interpreters.erlangR21.override { inherit version sha256; };
+          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+        }
+      else if majorVersion == "22" then
+        rec {
+          erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
+          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+        }
+      else if majorVersion == "23" then
+        # NOTE: nixpkgs doesn't have an R23 yet, but R22 works just fine as a base
+        # NOTE: need a newer rebar3 than is in nixpkgs
+        rec {
+          erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
+          rebar3 = super.callPackage rebar3-13 { erlang = erlang; };
+        }
+      else
+        throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
 
 in
   {
