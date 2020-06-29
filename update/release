@@ -25,8 +25,8 @@ main() {
     erlang-manifest.json \
     update/version-metadata/
 
-  git commit -m "${commit_message}."
-  git tag -s -m "${commit_message}." "${new_version}"
+  git commit -m "${commit_message}"
+  git tag -s -m "${commit_message}" "${new_version}"
 }
 
 main
