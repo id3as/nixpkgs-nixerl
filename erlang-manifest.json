@@ -1055,6 +1055,11 @@
     "sha256": "1zf1l9srsqpc4pq4idb05xxsxv9mls8jpff5rhv96nfgqbmgxypx"
   },
   {
+    "version": "21.3.8.17",
+    "rev": "460a07fd6ea0213b245cec82caf2d325d1e55592",
+    "sha256": "0gmbikafmxw979q7swijmb8a0prkwqg2rz82cq1p8104cw0zg229"
+  },
+  {
     "version": "21.3.8.1",
     "rev": "3b2c1dd3fdf1fec362cff3a88e188ef989ee79e5",
     "sha256": "0x5phs12knv55yr4z2ng2y5zx6dv6b8d2mwipqiwp334wga4c3v1"
@@ -1285,6 +1290,16 @@
     "sha256": "0xkax557qaznac5ad2r8kwlqv0ly4d770vifnl8w99a2p50la02r"
   },
   {
+    "version": "22.3.4.3",
+    "rev": "2474135c753cfca3dde9141173b262a6e1da2f81",
+    "sha256": "0agqv8kd8910k1rz5a4221m3jm16xpg9mqz2v64irh3w9rx3gslj"
+  },
+  {
+    "version": "22.3.4.4",
+    "rev": "351350b77159a50ec557bee3d423d7f6755cbc2e",
+    "sha256": "0qchcj65qf2z941jm2qf97p9l7razm2y3kp4z1a4qbrwvn2b7fgd"
+  },
+  {
     "version": "22.3.4",
     "rev": "6d5a5f31c36bbdaad21585d25974177bd1b75e66",
     "sha256": "1cyqrkjcfpxwzqjsa46ga7xp84bvcp2xkryf3wm4jxb1z2b1hmyp"
@@ -1303,6 +1318,11 @@
     "version": "23.0.2",
     "rev": "d687a6f130d6554728cc250b932bad50bb729502",
     "sha256": "19ly2m0rjay6071r75s9870cm3sph25zd1mvy67l5v4jg7mxdjzy"
+  },
+  {
+    "version": "23.0.3",
+    "rev": "44b6531bc575bac4eccab7eea2b27167f0d324aa",
+    "sha256": "133aw1ffkxdf38na3smmvn5qwwlalh4r4a51793h1wkhdzkyl6mv"
   },
   {
     "version": "23.0",
