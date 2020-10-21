@@ -47,16 +47,19 @@ let
     version = "3.3.0";
     sha256 = "0q5r871bzx1a8fa06yyxdi3xkkp7v5yqazzah03d6yl3vsmn7vqp";
   };
+
   providers = fetchHex {
     pkg = "providers";
     version = "1.8.1";
     sha256 = "183b9128l4af60rs40agqh6kc6db33j4027ad6jajxn4x6nlamz4";
   };
+
   relx = fetchHex {
     pkg = "relx";
     version = "4.0.2";
     sha256 = "05wyq28dkyhrk42laa1c8csvlw42f5vnqygrcbnv4cnqg0fd1d91";
   };
+
   ssl_verify_fun = fetchHex {
     pkg = "ssl_verify_fun";
     version = "1.1.6";
@@ -98,6 +101,8 @@ stdenv.mkDerivation rec {
     for i in _checkouts/* ; do
         ln -s $(pwd)/$i $(pwd)/_build/default/lib/
     done
+
+    sed -r -i '/rm_rf\(\"/d' $(pwd)/bootstrap
   '';
 
   buildPhase = ''
