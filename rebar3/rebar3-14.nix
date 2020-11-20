@@ -5,7 +5,7 @@
   tree }:
 
 let
-  version = "3.14.1";
+  version = "3.14.2";
 
   bbmustache = fetchHex {
     pkg = "bbmustache";
@@ -24,8 +24,8 @@ let
   };
   cth_readable = fetchHex {
     pkg = "cth_readable";
-    version = "1.4.8";
-    sha256 = "142fh00a5qvnvm4338mrbxk9dxdzap3yif8cvjlwf7aqvwabphs6";
+    version = "1.4.9";
+    sha256 = "096s305v636zq4lxvp2n7447k9n5nhqg08iwpcpmyv04vfmspiml";
   };
   erlware_commons = fetchHex {
     pkg = "erlware_commons";
@@ -56,8 +56,8 @@ let
 
   relx = fetchHex {
     pkg = "relx";
-    version = "4.0.2";
-    sha256 = "05wyq28dkyhrk42laa1c8csvlw42f5vnqygrcbnv4cnqg0fd1d91";
+    version = "4.1.0";
+    sha256 = "1x1av3dgm01x1npl1h6k83gpp5zlw12k71bs47jrwivsd6b3yjmr";
   };
 
   ssl_verify_fun = fetchHex {
@@ -75,7 +75,7 @@ stdenv.mkDerivation rec {
     owner = "erlang";
     repo = pname;
     rev = version;
-    sha256 = "113yy3scj6dxf0mr1y7jivrh4gdcyhp2wr91j9gc53v9q2jxc8ly";
+    sha256 = "02gz6xs8j5rm14r6dndcpdm8q3rl4mcj363gnnx4y5xvvfnv9bfa";
   };
 
   buildInputs = [ erlang tree ];
@@ -101,8 +101,6 @@ stdenv.mkDerivation rec {
     for i in _checkouts/* ; do
         ln -s $(pwd)/$i $(pwd)/_build/default/lib/
     done
-
-    sed -r -i '/rm_rf\(\"/d' $(pwd)/bootstrap
   '';
 
   buildPhase = ''
