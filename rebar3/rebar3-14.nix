@@ -1,8 +1,14 @@
 # NOTE: this has been imported from https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/build-managers/rebar3/default.nix
 
-{ stdenv, fetchFromGitHub,
-  fetchHex, erlang,
-  tree }:
+{ stdenv
+, fetchFromGitHub
+, fetchHex
+, erlang
+, tree
+, git
+, makeWrapper
+, lib
+}:
 
 let
   version = "3.14.2";
@@ -78,7 +84,7 @@ stdenv.mkDerivation rec {
     sha256 = "02gz6xs8j5rm14r6dndcpdm8q3rl4mcj363gnnx4y5xvvfnv9bfa";
   };
 
-  buildInputs = [ erlang tree ];
+  buildInputs = [ erlang tree git makeWrapper ];
 
   postPatch = ''
     mkdir -p _checkouts
@@ -108,8 +114,16 @@ stdenv.mkDerivation rec {
   '';
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp rebar3 $out/bin/rebar3
+    mkdir -p $out/bin/unwrapped
+
+    cp rebar3 $out/bin/unwrapped/rebar3
+
+    makeWrapper \
+      $out/bin/unwrapped/rebar3 \
+      $out/bin/rebar3 \
+      --prefix PATH : ${lib.makeBinPath [
+        git
+      ]}
   '';
 
   meta = {

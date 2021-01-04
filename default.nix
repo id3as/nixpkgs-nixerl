@@ -1,5 +1,7 @@
 self: super:
 let
+  fetchRebar3Deps = (import ./_support/fetch-rebar3-deps.nix);
+
   rebar3-13 = (import ./rebar3/rebar3-13.nix);
   rebar3-14 = (import ./rebar3/rebar3-14.nix);
   erlang-ls-0-5-1 = (import ./erlang-ls/erlang-ls-0.5.1.nix);
@@ -48,11 +50,11 @@ let
       else if majorVersion == "22" then
         rec {
           erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
-          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+          rebar3 = super.callPackage rebar3-14 { inherit erlang; };
           erlang-ls = super.callPackage erlang-ls-0-5-1 {
             inherit erlang rebar3;
             buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang; };
-            fetchRebar3Deps = self.beam.packages.erlang.fetchRebar3Deps.override { inherit erlang rebar3; };
+            fetchRebar3Deps = super.callPackage fetchRebar3Deps { inherit rebar3; };
           };
         }
       else if majorVersion == "23" then
@@ -60,7 +62,7 @@ let
         # NOTE: need a newer rebar3 than is in nixpkgs
         rec {
           erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
-          rebar3 = super.callPackage rebar3-14 { erlang = erlang; };
+          rebar3 = super.callPackage rebar3-14 { inherit erlang; };
         }
       else
         throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
