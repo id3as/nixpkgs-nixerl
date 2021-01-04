@@ -2,6 +2,7 @@ self: super:
 let
   rebar3-13 = (import ./rebar3/rebar3-13.nix);
   rebar3-14 = (import ./rebar3/rebar3-14.nix);
+  erlang-ls-0-5-1 = (import ./erlang-ls/erlang-ls-0.5.1.nix);
 
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 
@@ -11,10 +12,10 @@ let
   erlangManifestEntryToRelease = { version, rev, sha256 }@args:
     {
       name = "erlang-" + (builtins.replaceStrings ["."] ["-"] version);
-      value = erlangAndRebar args;
+      value = buildPackages args;
     };
 
-  erlangAndRebar = { version, rev, sha256 }:
+  buildPackages = { version, rev, sha256 }:
     let
       majorVersion = super.lib.versions.major version;
     in
@@ -48,6 +49,11 @@ let
         rec {
           erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
           rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
+          erlang-ls = super.callPackage erlang-ls-0-5-1 {
+            inherit erlang rebar3;
+            buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang; };
+            fetchRebar3Deps = self.beam.packages.erlang.fetchRebar3Deps.override { inherit erlang rebar3; };
+          };
         }
       else if majorVersion == "23" then
         # NOTE: nixpkgs doesn't have an R23 yet, but R22 works just fine as a base
