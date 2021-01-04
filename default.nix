@@ -4,7 +4,7 @@ let
 
   rebar3-13 = (import ./rebar3/rebar3-13.nix);
   rebar3-14 = (import ./rebar3/rebar3-14.nix);
-  erlang-ls-0-5-1 = (import ./erlang-ls/erlang-ls-0.5.1.nix);
+  erlang-ls-0-7-0 = (import ./erlang-ls/erlang-ls-0.7.0.nix);
 
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 
@@ -51,7 +51,7 @@ let
         rec {
           erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
           rebar3 = super.callPackage rebar3-14 { inherit erlang; };
-          erlang-ls = super.callPackage erlang-ls-0-5-1 {
+          erlang-ls = super.callPackage erlang-ls-0-7-0 {
             inherit erlang rebar3;
             buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang; };
             fetchRebar3Deps = super.callPackage fetchRebar3Deps { inherit rebar3; };
