@@ -53,7 +53,7 @@ let
           rebar3 = super.callPackage rebar3-14 { inherit erlang; };
           erlang-ls = super.callPackage erlang-ls-0-7-0 {
             inherit erlang rebar3;
-            buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang; };
+            buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang rebar3; };
             fetchRebar3Deps = super.callPackage fetchRebar3Deps { inherit rebar3; };
           };
         }
@@ -63,6 +63,11 @@ let
         rec {
           erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
           rebar3 = super.callPackage rebar3-14 { inherit erlang; };
+          erlang-ls = super.callPackage erlang-ls-0-7-0 {
+            inherit erlang rebar3;
+            buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang rebar3; };
+            fetchRebar3Deps = super.callPackage fetchRebar3Deps { inherit rebar3; };
+          };
         }
       else
         throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);

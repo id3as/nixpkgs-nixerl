@@ -5,16 +5,16 @@ let
         (import ./.)
       ];
     };
+
+  erlangChannel = nixpkgs.nixerl.erlang-23-2-1;
 in
 
 with nixpkgs;
 
 mkShell {
   buildInputs = with pkgs; [
-    (nixerl.erlang-23-0-2.erlang.overrideAttrs (oldAttrs: rec {
-			enableParallelBuilding = true;
-		}))
-
-    nixerl.erlang-23-0-2.rebar3
+    erlangChannel.erlang
+    erlangChannel.rebar3
+    erlangChannel.erlang-ls
   ];
 }
