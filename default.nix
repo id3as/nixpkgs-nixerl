@@ -48,27 +48,41 @@ let
           rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
         }
       else if majorVersion == "22" then
-        rec {
-          erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
-          rebar3 = super.callPackage rebar3-14 { inherit erlang; };
-          erlang-ls = super.callPackage erlang-ls-0-7-0 {
-            inherit erlang rebar3;
-            buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang rebar3; };
-            fetchRebar3Deps = super.callPackage fetchRebar3Deps { inherit rebar3; };
-          };
-        }
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope: {
+            erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
+
+            rebar3 = scope.callPackage rebar3-14 {};
+
+            erlang-ls = scope.callPackage erlang-ls-0-7-0 {};
+
+            buildRebar3 = scope.callPackage ({erlang, rebar3}: self.beam.packages.erlang.buildRebar3.override {
+              inherit erlang rebar3;
+            }) {};
+
+            fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
+          })
       else if majorVersion == "23" then
         # NOTE: nixpkgs doesn't have an R23 yet, but R22 works just fine as a base
         # NOTE: need a newer rebar3 than is in nixpkgs
-        rec {
-          erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
-          rebar3 = super.callPackage rebar3-14 { inherit erlang; };
-          erlang-ls = super.callPackage erlang-ls-0-7-0 {
-            inherit erlang rebar3;
-            buildRebar3 = self.beam.packages.erlang.buildRebar3.override { inherit erlang rebar3; };
-            fetchRebar3Deps = super.callPackage fetchRebar3Deps { inherit rebar3; };
-          };
-        }
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope: {
+            erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
+
+            rebar3 = scope.callPackage rebar3-14 {};
+
+            erlang-ls = scope.callPackage erlang-ls-0-7-0 {};
+
+            buildRebar3 = scope.callPackage ({erlang, rebar3}: self.beam.packages.erlang.buildRebar3.override {
+              inherit erlang rebar3;
+            }) {};
+
+            fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
+          })
       else
         throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
 

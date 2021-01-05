@@ -23,7 +23,7 @@ let
   deps = fetchRebar3Deps {
     inherit name version;
     src = "${src}/rebar.lock";
-    sha256 = "1xchwkbyw7rg7gycm2nwvp5k0qs49szgik5k06172k4kgdaq06jr";
+    sha256 = "0b05ysvrp34kf7fbcg7xjy8ln56kspp0dhjvc8ppv5ncnayzjfsv";
   };
 
 in
