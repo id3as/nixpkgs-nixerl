@@ -4,7 +4,7 @@ let
 
   rebar3-13 = (import ./rebar3/rebar3-13.nix);
   rebar3-14 = (import ./rebar3/rebar3-14.nix);
-  erlang-ls-0-7-0 = (import ./erlang-ls/erlang-ls-0.7.0.nix);
+  erlang-ls-0-13-0 = (import ./erlang-ls/erlang-ls-0.13.0.nix);
 
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 
@@ -56,7 +56,7 @@ let
 
             rebar3 = scope.callPackage rebar3-14 {};
 
-            erlang-ls = scope.callPackage erlang-ls-0-7-0 {};
+            erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
 
             buildRebar3 = scope.callPackage ({erlang, rebar3}: self.beam.packages.erlang.buildRebar3.override {
               inherit erlang rebar3;
@@ -64,18 +64,20 @@ let
 
             fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
           })
-      else if majorVersion == "23" then
-        # NOTE: nixpkgs doesn't have an R23 yet, but R22 works just fine as a base
-        # NOTE: need a newer rebar3 than is in nixpkgs
+      else if builtins.elem majorVersion ["23" "24"] then
         let
           newScope = extra: super.lib.callPackageWith (super // extra);
+          # try to support old nixpkgs that don't have erlangR23
+          erlangDrv = if self.beam.interpreters ? erlangR23 then
+            self.beam.interpreters.erlangR23 else
+            self.beam.interpreters.erlangR22;
         in
           super.lib.makeScope newScope (scope: {
-            erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
+            erlang = erlangDrv.override { inherit version sha256; };
 
             rebar3 = scope.callPackage rebar3-14 {};
 
-            erlang-ls = scope.callPackage erlang-ls-0-7-0 {};
+            erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
 
             buildRebar3 = scope.callPackage ({erlang, rebar3}: self.beam.packages.erlang.buildRebar3.override {
               inherit erlang rebar3;

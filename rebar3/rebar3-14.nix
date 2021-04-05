@@ -11,7 +11,7 @@
 }:
 
 let
-  version = "3.14.2";
+  version = "3.14.4";
 
   bbmustache = fetchHex {
     pkg = "bbmustache";
@@ -20,8 +20,8 @@ let
   };
   certifi = fetchHex {
     pkg = "certifi";
-    version = "2.5.2";
-    sha256 = "0h2hawgfpvjs0ml9jgb9hjccws77yvm92scnalsaq11h94v5yfrv";
+    version = "2.5.3";
+    sha256 = "040w1scglvqhcvc1ifdnlcyrbwr0smi00w4xi8h03c99775nllgd";
   };
   cf = fetchHex {
     pkg = "cf";
@@ -30,13 +30,13 @@ let
   };
   cth_readable = fetchHex {
     pkg = "cth_readable";
-    version = "1.4.9";
-    sha256 = "096s305v636zq4lxvp2n7447k9n5nhqg08iwpcpmyv04vfmspiml";
+    version = "1.5.0";
+    sha256 = "0z58b6frqdnhyzrmbdf6x78l3izbbh5z5i3am8hqc253r7xwv0dx";
   };
   erlware_commons = fetchHex {
     pkg = "erlware_commons";
-    version = "1.3.1";
-    sha256 = "7aada93f368d0a0430122e39931b7fb4ac9e94dbf043cdc980ad4330fd9cd166";
+    version = "1.4.0";
+    sha256 = "1rp2vkgzqm6sax7fc13rh9x6qzxsgg718dnv7l0kmarvyifcyphq";
   };
   eunit_formatters = fetchHex {
     pkg = "eunit_formatters";
@@ -50,8 +50,8 @@ let
   };
   parse_trans = fetchHex {
     pkg = "parse_trans";
-    version = "3.3.0";
-    sha256 = "0q5r871bzx1a8fa06yyxdi3xkkp7v5yqazzah03d6yl3vsmn7vqp";
+    version = "3.3.1";
+    sha256 = "12w8ai6b5s6b4hnvkav7hwxd846zdd74r32f84nkcmjzi1vrbk87";
   };
 
   providers = fetchHex {
@@ -62,8 +62,8 @@ let
 
   relx = fetchHex {
     pkg = "relx";
-    version = "4.1.0";
-    sha256 = "1x1av3dgm01x1npl1h6k83gpp5zlw12k71bs47jrwivsd6b3yjmr";
+    version = "4.3.0";
+    sha256 = "0h044arh41sr92r1nlg176shavlv7pvw17alwklhszgwlr4hk3kk";
   };
 
   ssl_verify_fun = fetchHex {
@@ -81,7 +81,7 @@ stdenv.mkDerivation rec {
     owner = "erlang";
     repo = pname;
     rev = version;
-    sha256 = "02gz6xs8j5rm14r6dndcpdm8q3rl4mcj363gnnx4y5xvvfnv9bfa";
+    sha256 = "09bnqwli93sq1pcz4h88ks7qg7k8yrjy9fd46yyp8xdl7i4irwy2";
   };
 
   buildInputs = [ erlang tree git makeWrapper ];
