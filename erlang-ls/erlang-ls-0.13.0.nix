@@ -11,19 +11,19 @@
 let
   name = "erlang_ls";
 
-  version = "0.7.0";
+  version = "0.13.0";
 
   src = fetchFromGitHub {
     owner = "erlang-ls";
     repo = "erlang_ls";
     rev = "${version}";
-    sha256 = "1gdrn3n264vj7i1j3klwsyl8r19b3qbkid4kbqys5dgg1aj0jrar";
+    sha256 = "1cw5j19wff7c1za1j1pi53dx29swbrq0k7fnhq979wfw0y95fckk";
   };
 
   deps = fetchRebar3Deps {
     inherit name version;
     src = "${src}/rebar.lock";
-    sha256 = "04bz91im3aq2l4h35ffwxg56jh8pbl0bmiwph5kwjn67c52agm20";
+    sha256 = "1v9mmh0cvsdw25v01dg6va776hwv78jc3ciaxk3ykcn5r9yk7fzj";
   };
 
 in
