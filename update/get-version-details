@@ -16,7 +16,7 @@ fi
 if [[ ! -f "${version_file}" ]]
 then
 	temp_file=$(mktemp)
-	nix-prefetch-github erlang otp --no-fetch-submodules --rev "OTP-${version}" | jq "{ \"\$nix-erl-version\": \"1\", version: \"${version}\" } + ." > "${temp_file}"
+	nix-prefetch-github erlang otp --rev "OTP-${version}" | jq "{ \"\$nix-erl-version\": \"1\", version: \"${version}\" } + ." > "${temp_file}"
 	mv "${temp_file}" "${version_file}"
 fi
 

@@ -9,6 +9,7 @@ main() {
 
   # Make sure our version-metadata JSON files are up-to-date
   git ls-remote --tags --refs https://github.com/erlang/otp "OTP-*" \
+    | grep -v -e "OTP-17\." -e "OTP-18\." \
     | tac \
     | gawk -f versions.awk
 

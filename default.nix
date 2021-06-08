@@ -2,9 +2,21 @@ self: super:
 let
   fetchRebar3Deps = (import ./_support/fetch-rebar3-deps.nix);
 
+  # Erlang 19 - 22
   rebar3-13 = (import ./rebar3/rebar3-13.nix);
-  rebar3-14 = (import ./rebar3/rebar3-14.nix);
+  # Erlang 19 - 23
+  rebar3-15 = (import ./rebar3/rebar3-15.nix);
+  # Erlang 22 - 24
+  rebar3-16 = (import ./rebar3/rebar3-16.nix);
+
   erlang-ls-0-13-0 = (import ./erlang-ls/erlang-ls-0.13.0.nix);
+
+  beam = (import ./lib/imported-from-nixpkgs/development/beam-modules/lib.nix) self super;
+  erlang18 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R18.nix) {};
+  erlang19 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R19.nix) {};
+  erlang20 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R20.nix) {};
+  erlang21 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R21.nix) {};
+  erlang22_24 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R22-24.nix) {};
 
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 
@@ -21,40 +33,38 @@ let
     let
       majorVersion = super.lib.versions.major version;
     in
-      if majorVersion == "17" then
-        # Unsupported, but seems to work
-        rec {
-          erlang = self.beam.interpreters.erlangR18.override { inherit version sha256; };
-          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
-        }
-      else if majorVersion == "18" then
-        rec {
-          erlang = self.beam.interpreters.erlangR18.override { inherit version sha256; };
-          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
-        }
-      else if majorVersion == "19" then
-        rec {
-          erlang = self.beam.interpreters.erlangR19.override { inherit version sha256; };
-          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
-        }
+      if majorVersion == "19" then
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope: {
+            erlang = erlang19.override { inherit version sha256; };
+            rebar3 = scope.callPackage rebar3-15 {};
+          })
       else if majorVersion == "20" then
-        rec {
-          erlang = self.beam.interpreters.erlangR20.override { inherit version sha256; };
-          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
-        }
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope: {
+            erlang = erlang20.override { inherit version sha256; };
+            rebar3 = scope.callPackage rebar3-15 {};
+          })
       else if majorVersion == "21" then
-        rec {
-          erlang = self.beam.interpreters.erlangR21.override { inherit version sha256; };
-          rebar3 = self.beam.packages.erlang.rebar3.override { inherit erlang; };
-        }
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope: {
+            erlang = erlang21.override { inherit version sha256; };
+            rebar3 = scope.callPackage rebar3-15 {};
+          })
       else if majorVersion == "22" then
         let
           newScope = extra: super.lib.callPackageWith (super // extra);
         in
           super.lib.makeScope newScope (scope: {
-            erlang = self.beam.interpreters.erlangR22.override { inherit version sha256; };
+            erlang = erlang22_24.override { inherit version sha256; };
 
-            rebar3 = scope.callPackage rebar3-14 {};
+            rebar3 = scope.callPackage rebar3-16 {};
 
             erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
 
@@ -64,18 +74,31 @@ let
 
             fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
           })
-      else if builtins.elem majorVersion ["23" "24"] then
+      else if majorVersion == "23" then
         let
           newScope = extra: super.lib.callPackageWith (super // extra);
-          # try to support old nixpkgs that don't have erlangR23
-          erlangDrv = if self.beam.interpreters ? erlangR23 then
-            self.beam.interpreters.erlangR23 else
-            self.beam.interpreters.erlangR22;
         in
           super.lib.makeScope newScope (scope: {
-            erlang = erlangDrv.override { inherit version sha256; };
+            erlang = erlang22_24.override { inherit version sha256; };
 
-            rebar3 = scope.callPackage rebar3-14 {};
+            rebar3 = scope.callPackage rebar3-16 {};
+
+            erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
+
+            buildRebar3 = scope.callPackage ({erlang, rebar3}: self.beam.packages.erlang.buildRebar3.override {
+              inherit erlang rebar3;
+            }) {};
+
+            fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
+          })
+      else if majorVersion == "24" then
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope: {
+            erlang = erlang22_24.override { inherit version sha256; };
+
+            rebar3 = scope.callPackage rebar3-16 {};
 
             erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
 
@@ -87,7 +110,6 @@ let
           })
       else
         throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
-
 in
   {
     nixerl = (super.nixerl or {}) // (builtins.listToAttrs erlangReleases);

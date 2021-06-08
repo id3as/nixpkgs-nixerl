@@ -1,36 +1,42 @@
 # NOTE: this has been imported from https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/build-managers/rebar3/default.nix
 
-{ stdenv, fetchFromGitHub,
-  fetchHex, erlang,
-  tree }:
+{ stdenv
+, fetchFromGitHub
+, fetchHex
+, erlang
+, tree
+, git
+, makeWrapper
+, lib
+}:
 
 let
-  version = "3.13.3";
+  version = "3.15.2";
 
   bbmustache = fetchHex {
     pkg = "bbmustache";
-    version = "1.8.0";
-    sha256 = "0lhj2rwvrhi8is15adlmcaf1slgnjzgvh04jbnzzmg98c4ha43hr";
+    version = "1.10.0";
+    sha256 = "1vp27jqnq65a8iqp7j4z8nw9ad29dhky5agmg8aj75dvshzzmvs3";
   };
   certifi = fetchHex {
     pkg = "certifi";
-    version = "2.5.1";
-    sha256 = "0hlcg9lywa5x1cw65i0slp6s17dsc8gcjcj7dpn8kbwwafbvsnl0";
+    version = "2.5.3";
+    sha256 = "040w1scglvqhcvc1ifdnlcyrbwr0smi00w4xi8h03c99775nllgd";
   };
   cf = fetchHex {
     pkg = "cf";
-    version = "0.2.2";
-    sha256 = "08cvy7skn5d2k4manlx5k3anqgjdvajjhc5jwxbaszxw34q3na28";
+    version = "0.3.1";
+    sha256 = "0wknz4xkqkhgvlx4vx5619p8m65v7g87lfgsvfy04jrsgm28spii";
   };
   cth_readable = fetchHex {
     pkg = "cth_readable";
-    version = "1.4.6";
-    sha256 = "08vmv7w3bfnzl8rkkvg16lrh903fqlqwnz60nkibyjj4zmxrsycg";
+    version = "1.5.1";
+    sha256 = "686541a22efe6ca5a41a047b39516c2dd28fb3cade5f24a2f19145b3967f9d80";
   };
   erlware_commons = fetchHex {
     pkg = "erlware_commons";
-    version = "1.3.1";
-    sha256 = "7aada93f368d0a0430122e39931b7fb4ac9e94dbf043cdc980ad4330fd9cd166";
+    version = "1.4.0";
+    sha256 = "1rp2vkgzqm6sax7fc13rh9x6qzxsgg718dnv7l0kmarvyifcyphq";
   };
   eunit_formatters = fetchHex {
     pkg = "eunit_formatters";
@@ -44,8 +50,8 @@ let
   };
   parse_trans = fetchHex {
     pkg = "parse_trans";
-    version = "3.3.0";
-    sha256 = "0q5r871bzx1a8fa06yyxdi3xkkp7v5yqazzah03d6yl3vsmn7vqp";
+    version = "3.3.1";
+    sha256 = "12w8ai6b5s6b4hnvkav7hwxd846zdd74r32f84nkcmjzi1vrbk87";
   };
   providers = fetchHex {
     pkg = "providers";
@@ -54,13 +60,13 @@ let
   };
   relx = fetchHex {
     pkg = "relx";
-    version = "3.33.0";
-    sha256 = "1b0yxid4rf9jqqgpfbvrzmbrm1syghcsiy2zqkhas2y7kw9mc13f";
+    version = "4.4.0";
+    sha256 = "55c0ed63bb5d55eb983a19eb94d7f3075df6d126dbdff43102a6660a91fce925";
   };
   ssl_verify_fun = fetchHex {
     pkg = "ssl_verify_fun";
-    version = "1.1.5";
-    sha256 = "15n4pzrddilb68pfnx90jlf7sn98dhx9bpn48kqdg3p3jxw4s40k";
+    version = "1.1.6";
+    sha256 = "1026l1z1jh25z8bfrhaw0ryk5gprhrpnirq877zqhg253x3x5c5x";
   };
 
 in
@@ -72,10 +78,10 @@ stdenv.mkDerivation rec {
     owner = "erlang";
     repo = pname;
     rev = version;
-    sha256 = "0bspi53nw0zc35srqwc9ya500nx0nhzc7q5v717rdhpbmg4c97iq";
+    sha256 = "07qgn14sgbq31cs4s6hn770ibzmc6lyl0bhqypnf71qimd65vyn8";
   };
 
-  buildInputs = [ erlang tree ];
+  buildInputs = [ erlang tree git makeWrapper ];
 
   postPatch = ''
     mkdir -p _checkouts
@@ -105,8 +111,16 @@ stdenv.mkDerivation rec {
   '';
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp rebar3 $out/bin/rebar3
+    mkdir -p $out/bin/unwrapped
+
+    cp rebar3 $out/bin/unwrapped/rebar3
+
+    makeWrapper \
+      $out/bin/unwrapped/rebar3 \
+      $out/bin/rebar3 \
+      --prefix PATH : ${lib.makeBinPath [
+        git
+      ]}
   '';
 
   meta = {
