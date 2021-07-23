@@ -1,4 +1,4 @@
-{ pkgs, stdenv, fetchFromGitHub, makeWrapper, gawk, gnum4, gnused
+{ pkgs, lib, stdenv, fetchFromGitHub, makeWrapper, gawk, gnum4, gnused
 , libxml2, libxslt, ncurses, openssl, perl, autoconf
 , openjdk ? null # javacSupport
 , unixODBC ? null # odbcSupport
@@ -20,6 +20,7 @@
 , javacSupport ? false, javacPackages ? [ openjdk ]
 , odbcSupport ? false, odbcPackages ? [ unixODBC ]
 , wxSupport ? true, wxPackages ? [ libGL libGLU wxGTK xorg.libX11 ]
+, opensslPackage ? openssl
 , preUnpack ? "", postUnpack ? ""
 , patches ? [], patchPhase ? "", prePatch ? "", postPatch ? ""
 , configureFlags ? [], configurePhase ? "", preConfigure ? "", postConfigure ? ""
@@ -39,7 +40,7 @@ assert odbcSupport -> unixODBC != null;
 assert javacSupport -> openjdk != null;
 
 let
-  inherit (stdenv.lib) optional optionals optionalAttrs optionalString;
+  inherit (lib) optional optionals optionalAttrs optionalString;
   wxPackages2 = if stdenv.isDarwin then [ wxmac ] else wxPackages;
 
 in stdenv.mkDerivation ({
@@ -51,7 +52,7 @@ in stdenv.mkDerivation ({
 
   nativeBuildInputs = [ autoconf makeWrapper perl gnum4 libxslt libxml2 ];
 
-  buildInputs = [ ncurses openssl ]
+  buildInputs = [ ncurses opensslPackage ]
     ++ optionals wxSupport wxPackages2
     ++ optionals odbcSupport odbcPackages
     ++ optionals javacSupport javacPackages
@@ -80,7 +81,8 @@ in stdenv.mkDerivation ({
     ./otp_build autoconf
   '';
 
-  configureFlags = [ "--with-ssl=${openssl.dev}" ]
+  # configureFlags = [ "--with-ssl=${openssl.dev}" ]
+  configureFlags = [ "--with-ssl=${lib.getDev opensslPackage}" ]
     ++ optional enableThreads "--enable-threads"
     ++ optional enableSmpSupport "--enable-smp-support"
     ++ optional enableKernelPoll "--enable-kernel-poll"
@@ -89,7 +91,8 @@ in stdenv.mkDerivation ({
     ++ optional odbcSupport "--with-odbc=${unixODBC}"
     ++ optional wxSupport "--enable-wx"
     ++ optional withSystemd "--enable-systemd"
-    ++ optional stdenv.isDarwin "--enable-darwin-64bit";
+    ++ optional stdenv.isDarwin "--enable-darwin-64bit"
+    ++ configureFlags;
 
   # install-docs will generate and install manpages and html docs
   # (PDFs are generated only when fop is available).
@@ -103,12 +106,12 @@ in stdenv.mkDerivation ({
   # Some erlang bin/ scripts run sed and awk
   postFixup = ''
     wrapProgram $out/lib/erlang/bin/erl --prefix PATH ":" "${gnused}/bin/"
-    wrapProgram $out/lib/erlang/bin/start_erl --prefix PATH ":" "${stdenv.lib.makeBinPath [ gnused gawk ]}"
+    wrapProgram $out/lib/erlang/bin/start_erl --prefix PATH ":" "${lib.makeBinPath [ gnused gawk ]}"
   '';
 
   setupHook = ./setup-hook.sh;
 
-  meta = with stdenv.lib; ({
+  meta = with lib; ({
     homepage = "https://www.erlang.org/";
     downloadPage = "https://www.erlang.org/download.html";
     description = "Programming language used for massively scalable soft real-time systems";

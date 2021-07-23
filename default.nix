@@ -1,5 +1,7 @@
 self: super:
 let
+  autoconf = if super ? autoconf269 then super.autoconf269 else super.autoconf;
+
   fetchRebar3Deps = (import ./_support/fetch-rebar3-deps.nix);
 
   # Erlang 19 - 22
@@ -12,11 +14,27 @@ let
   erlang-ls-0-13-0 = (import ./erlang-ls/erlang-ls-0.13.0.nix);
 
   beam = (import ./lib/imported-from-nixpkgs/development/beam-modules/lib.nix) self super;
-  erlang18 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R18.nix) {};
-  erlang19 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R19.nix) {};
-  erlang20 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R20.nix) {};
-  erlang21 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R21.nix) {};
-  erlang22_24 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R22-24.nix) {};
+
+  erlang18 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R18.nix) {
+    inherit autoconf;
+  };
+
+  erlang19 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R19.nix) {
+    inherit autoconf;
+  };
+
+  erlang20 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R20.nix) {
+    inherit autoconf;
+  };
+
+  erlang21 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R21.nix) {
+    inherit autoconf;
+  };
+
+  erlang22_24 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R22-24.nix) {
+    inherit autoconf;
+    parallelBuild = true;
+  };
 
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 

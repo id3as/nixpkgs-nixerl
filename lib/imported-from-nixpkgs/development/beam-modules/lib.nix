@@ -12,7 +12,7 @@ rec {
   callPackageWith = autoArgs: fn: args:
     let
       f = if super.pkgs.lib.isFunction fn then fn else import fn;
-      auto = builtins.intersectAttrs (super.stdenv.lib.functionArgs f) autoArgs;
+      auto = builtins.intersectAttrs (super.lib.functionArgs f) autoArgs;
     in f (auto // args);
 
   callPackage = callPackageWith self.pkgs;
