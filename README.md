@@ -155,9 +155,16 @@ this repository up-to-date easily when new releases of Erlang are
 tagged in the OTP GitHub repository.
 
 ## Credit
+The implementation of nixerl has changed a couple of times, originally it imported
+code directly from [nixpkgs][nixpkgs-gh], before I then realized I was able to use it directly
+without importing.
 
-The building of the underlying derivation for Erlang is inherited directly from nixpkgs
-and the credit for that goes to the authors there.
+However, it has become harder to do that over time, and so, I've once again imported
+the nxipkgs code into this repository so that it can me adapted to better meet the
+goals of this project.
+
+A huge debt of thanks is owed to the original authors and maintainers of the Erlang
+support in [nixpkgs][nixpkgs-gh].
 
 
 ## FAQ
