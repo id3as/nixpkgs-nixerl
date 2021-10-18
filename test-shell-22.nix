@@ -6,7 +6,7 @@ let
       ];
     };
 
-  erlangChannel = nixpkgs.nixerl.erlang-22-3;
+  erlangChannel = nixpkgs.nixerl.erlang-22-3-4;
 in
 
 with nixpkgs;
@@ -15,6 +15,6 @@ mkShell {
   buildInputs = with pkgs; [
     erlangChannel.erlang
     erlangChannel.rebar3
-    # erlangChannel.erlang-ls
+    erlangChannel.erlang-ls
   ];
 }

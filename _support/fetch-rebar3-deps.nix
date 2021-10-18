@@ -1,6 +1,7 @@
 { stdenv
 , rebar3
 , cacert
+, lib
 }:
 
 { name
@@ -10,7 +11,7 @@
 , meta ? {}
 }:
 
-with stdenv.lib;
+with lib;
 
 stdenv.mkDerivation ({
   name = "rebar-deps-${name}-${version}";
@@ -43,7 +44,7 @@ stdenv.mkDerivation ({
   outputHashMode = "recursive";
   outputHash = sha256;
 
-  impureEnvVars = stdenv.lib.fetchers.proxyImpureEnvVars;
+  impureEnvVars = lib.fetchers.proxyImpureEnvVars;
   inherit meta;
 })
 
