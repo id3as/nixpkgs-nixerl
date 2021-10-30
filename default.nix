@@ -16,7 +16,7 @@ let
   # Erlang 22 - 24 Default
   rebar3-17 = (import ./rebar3/rebar3-17.nix);
 
-  erlang-ls-0-13-0 = (import ./erlang-ls/erlang-ls-0.13.0.nix);
+  erlang-ls-0-20-0 = (import ./erlang-ls/erlang-ls-0.20.0.nix);
 
   beam = (import ./lib/imported-from-nixpkgs/development/beam-modules/lib.nix) self super;
 
@@ -90,7 +90,7 @@ let
             rebar3_16 = scope.callPackage rebar3-16 {};
             rebar3 = scope.callPackage rebar3-17 {};
 
-            erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
+            erlang-ls = scope.callPackage erlang-ls-0-20-0 {};
 
             # Needed by erlang-ls
             pc = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/pc/default.nix) {};
@@ -112,7 +112,7 @@ let
             pc = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/pc/default.nix) {};
             buildRebar3 = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/build-rebar3.nix) {};
 
-            erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
+            erlang-ls = scope.callPackage erlang-ls-0-20-0 {};
 
             fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
           })
@@ -130,7 +130,7 @@ let
             pc = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/pc/default.nix) {};
             buildRebar3 = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/build-rebar3.nix) {};
 
-            erlang-ls = scope.callPackage erlang-ls-0-13-0 {};
+            erlang-ls = scope.callPackage erlang-ls-0-20-0 {};
 
             fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
           })

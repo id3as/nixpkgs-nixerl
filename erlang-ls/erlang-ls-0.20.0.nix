@@ -11,7 +11,7 @@
 let
   name = "erlang_ls";
 
-  version = "0.13.0";
+  version = "0.20.0";
 
   src = fetchFromGitHub {
     owner = "erlang-ls";
