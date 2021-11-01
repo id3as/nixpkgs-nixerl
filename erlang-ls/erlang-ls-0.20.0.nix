@@ -11,24 +11,28 @@
 let
   name = "erlang_ls";
 
-  version = "0.20.0";
+  ls_version = "81086c957274069e66ab8b396c8af7c5ac9c92ed";
+  ls_sha256 = "0ybdgj01y1wykgj5bg8yi15an08lx0i2bdlx5s9r4qhimkdvbgsv";
+  deps_sha256 = "0z1yi6s5601ij8gl5ykyfkl7wjba781w79yh3cm8xizkcd2qyyvn";
 
   src = fetchFromGitHub {
-    owner = "erlang-ls";
+    owner = "id3as";
     repo = "erlang_ls";
-    rev = "${version}";
-    sha256 = "1cw5j19wff7c1za1j1pi53dx29swbrq0k7fnhq979wfw0y95fckk";
+    rev = "${ls_version}";
+    sha256 = "${ls_sha256}";
   };
 
   deps = fetchRebar3Deps {
-    inherit name version;
+    inherit name;
+    version = "${ls_version}";
     src = "${src}/rebar.lock";
-    sha256 = "1v9mmh0cvsdw25v01dg6va776hwv78jc3ciaxk3ykcn5r9yk7fzj";
+    sha256 = "${deps_sha256}";
   };
 
 in
   buildRebar3 rec {
-    inherit name version src;
+    inherit name src;
+    version = "${ls_version}";
 
     # These  have to be copies rather than
     # symlinks  because priv gets written to a lot
