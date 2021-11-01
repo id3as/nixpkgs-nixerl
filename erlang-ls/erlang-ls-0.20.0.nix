@@ -11,9 +11,9 @@
 let
   name = "erlang_ls";
 
-  ls_version = "81086c957274069e66ab8b396c8af7c5ac9c92ed";
-  ls_sha256 = "0ybdgj01y1wykgj5bg8yi15an08lx0i2bdlx5s9r4qhimkdvbgsv";
-  deps_sha256 = "0z1yi6s5601ij8gl5ykyfkl7wjba781w79yh3cm8xizkcd2qyyvn";
+  ls_version = "6430c741f5b1102adf6455d5205146658947bc97";
+  ls_sha256 = "153rz684gg51np53c1cqinwv1ps1l0mjf6vbsqn7q53z4py17j4y";
+  deps_sha256 = "1jc7p9jkhj13qa0cc2qv3h6s0r2jz5mlvm8jwhjyzs5i91rrpgnj";
 
   src = fetchFromGitHub {
     owner = "id3as";
