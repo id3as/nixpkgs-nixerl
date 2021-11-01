@@ -5,5 +5,5 @@
   "repo": "otp",
   "rev": "82f97b9d3d639ed87175aeed75747eb6594170ab",
   "sha256": "065kc9p30jam23grpm7dwxjf76n6g1hzdrq9q1irr3qmw1rr0240",
-  "fetchSubmodules": true
+  "fetchSubmodules": false
 }

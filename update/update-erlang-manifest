@@ -14,7 +14,10 @@ main() {
     | gawk -f versions.awk
 
   # Build our manifest
-  jq '[ .[] | { version: .version, rev: .rev, sha256: .sha256 } ]' -s version-metadata/* \
+  find version-metadata -name \*.json |
+    sort -V |
+    xargs \
+      jq '[ .[] | { version: .version, rev: .rev, sha256: .sha256 } ]' -s \
     > ./../erlang-manifest.json
 }
 

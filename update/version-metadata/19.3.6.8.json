@@ -4,5 +4,6 @@
   "owner": "erlang",
   "repo": "otp",
   "rev": "90edf69ba7acbfaa55a709fa115ce8bb782b9dc9",
-  "sha256": "1xm4b5xmw2sbj58hdzh1f58wq9kvsxhv0jcn6c5q5jf2qhchcq6n"
+  "sha256": "1xm4b5xmw2sbj58hdzh1f58wq9kvsxhv0jcn6c5q5jf2qhchcq6n",
+  "fetchSubmodules": false
 }
