@@ -6,15 +6,20 @@ let
       ];
     };
 
-  erlangChannel = nixpkgs.nixerl.erlang-24-0-rc2;
+
+  erlang = nixpkgs.nixerl.erlang-24-1-3.overrideScope' (self: super: {
+    erlang = super.erlang.override {
+      wxSupport = false;
+    };
+  });
 in
 
 with nixpkgs;
 
 mkShell {
   buildInputs = with pkgs; [
-    erlangChannel.erlang
-    erlangChannel.rebar3
-    erlangChannel.erlang-ls
+    erlang.erlang
+    erlang.rebar3
+    erlang.erlang-ls
   ];
 }
