@@ -1,0 +1,9 @@
+{
+  "$nix-erl-version": "1",
+  "version": "23.3.4.11",
+  "owner": "erlang",
+  "repo": "otp",
+  "rev": "47375b6e71507c3f716168e07cbd75259d5ad6b4",
+  "sha256": "16wv7qcb05lrc9qf5xz3km51f88pbs61xapgkppv0bimnd1a8y39",
+  "fetchSubmodules": false
+}
