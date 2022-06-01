@@ -41,6 +41,11 @@ let
     parallelBuild = true;
   };
 
+  erlang25 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R25.nix) {
+    inherit autoconf;
+    parallelBuild = true;
+  };
+
   erlangManifest = builtins.fromJSON (builtins.readFile ./erlang-manifest.json);
 
   erlangReleases =
@@ -122,6 +127,24 @@ let
         in
           super.lib.makeScope newScope (scope: {
             erlang = erlang22_24.override { inherit version sha256; };
+
+            rebar3_16 = scope.callPackage rebar3-16 {};
+            rebar3 = scope.callPackage rebar3-17 {};
+
+            # Needed by erlang-ls
+            pc = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/pc/default.nix) {};
+            buildRebar3 = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/build-rebar3.nix) {};
+
+            erlang-ls = scope.callPackage erlang-ls-0-20-0 {};
+
+            fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
+          })
+      else if majorVersion == "25" then
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope: {
+            erlang = erlang25.override { inherit version sha256; };
 
             rebar3_16 = scope.callPackage rebar3-16 {};
             rebar3 = scope.callPackage rebar3-17 {};

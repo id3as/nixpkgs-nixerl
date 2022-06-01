@@ -5,8 +5,15 @@ let
         (import ./.)
       ];
     };
+  erlangChannel = nixpkgs.nixerl.erlang-22-2-1.overrideScope' (self: super: {
+#    erlang = super.erlang.overrideAttrs(attr:  {
+#      wxSupport = false;
+#      configureFlags = [
+#        "--without-wx"
+#      ]; # bleh
+    });
+  });
 
-  erlangChannel = nixpkgs.nixerl.erlang-22-3-4;
 in
 
 with nixpkgs;

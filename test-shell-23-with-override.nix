@@ -15,9 +15,9 @@ let
     };
 
   erlangChannel = nixpkgs.nixerl.erlang-23-2-1.overrideScope' (self: super: {
-    erlang = super.erlang.override {
-      wxSupport = false;
-    };
+#    erlang = super.erlang.overrideAttrs {
+#      wxSupport = false;
+#    };
   });
 in
 

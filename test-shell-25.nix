@@ -7,8 +7,9 @@ let
     };
 
 
-  erlang = nixpkgs.nixerl.erlang-24-1-3.overrideScope' (self: super: {
+  erlang = nixpkgs.nixerl.erlang-25-0.overrideScope' (self: super: {
     erlang = super.erlang.override {
+#      wxSupport = false;
     };
   });
 in
