@@ -16,12 +16,11 @@
 , unixODBC ? null # odbcSupport
 , libGL ? null
 , libGLU ? null
-, wxGTK ? null
-, wxmac ? null
+, wxGTK31 ? null
 , xorg ? null
 , parallelBuild ? false
 , systemd
-, wxSupport ? true
+, wxSupport ? false
 , systemdSupport ? stdenv.isLinux # systemd support in epmd
   # updateScript deps
 , writeScript
@@ -44,7 +43,7 @@
 , odbcSupport ? false
 , odbcPackages ? [ unixODBC ]
 , opensslPackage ? openssl
-, wxPackages ? [ libGL libGLU wxGTK xorg.libX11 ]
+, wxPackages ? [ libGL libGLU wxGTK31 xorg.libX11 ]
 , preUnpack ? ""
 , postUnpack ? ""
 , patches ? [ ]
@@ -72,15 +71,15 @@
 }:
 
 assert wxSupport -> (if stdenv.isDarwin
-then wxmac != null
-else libGL != null && libGLU != null && wxGTK != null && xorg != null);
+then false # wxmac is not a thing anymore? https://github.com/NixOS/nixpkgs/pull/222526/files
+else libGL != null && libGLU != null && wxGTK31 != null && xorg != null);
 
 assert odbcSupport -> unixODBC != null;
 assert javacSupport -> openjdk11 != null;
 
 let
   inherit (lib) optional optionals optionalAttrs optionalString;
-  wxPackages2 = if stdenv.isDarwin then [ wxmac ] else wxPackages;
+  wxPackages2 = if stdenv.isDarwin then [] else wxPackages;
 
 in
 stdenv.mkDerivation ({
