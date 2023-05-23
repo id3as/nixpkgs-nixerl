@@ -2,6 +2,7 @@
 , rebar3
 , cacert
 , lib
+, pkgs
 }:
 
 { name
@@ -18,10 +19,11 @@ stdenv.mkDerivation ({
 
   phases = [ "downloadPhase" "installPhase" ];
 
+  buildInputs = [ pkgs.git ];
+
   downloadPhase = ''
     cp ${src} .
     HOME='.' \
-      DEBUG=1 \
       GIT_SSL_CAINFO=${cacert}/etc/ssl/certs/ca-bundle.crt \
       SSL_CERT_FILE=${cacert}/etc/ssl/certs/ca-bundle.crt \
       ${rebar3}/bin/rebar3 get-deps

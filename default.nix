@@ -16,7 +16,12 @@ let
   # Erlang 22 - 24 Default
   rebar3-17 = (import ./rebar3/rebar3-17.nix);
 
+  # Erlang 26 Default
+  rebar3-21 = (import ./rebar3/rebar3-21.nix);
+
   erlang-ls-0-20-0 = (import ./erlang-ls/erlang-ls-0.20.0.nix);
+
+  erlang-ls-0-46-2 = (import ./erlang-ls/erlang-ls-0.46.2.nix);
 
   beam = (import ./lib/imported-from-nixpkgs/development/beam-modules/lib.nix) self super;
 
@@ -42,6 +47,11 @@ let
   };
 
   erlang25 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R25.nix) {
+    inherit autoconf;
+    parallelBuild = true;
+  };
+
+  erlang26 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R26.nix) {
     inherit autoconf;
     parallelBuild = true;
   };
@@ -156,6 +166,27 @@ let
             erlang-ls = scope.callPackage erlang-ls-0-20-0 {};
 
             fetchRebar3Deps = scope.callPackage fetchRebar3Deps {};
+          })
+      else if majorVersion == "26" then
+        let
+          newScope = extra: super.lib.callPackageWith (super // extra);
+        in
+          super.lib.makeScope newScope (scope:
+            let
+              rebar3 = scope.callPackage rebar3-21 {};
+            in
+            {
+              erlang = erlang26.override { inherit version sha256; };
+
+              rebar3 = rebar3;
+
+              # Needed by erlang-ls
+              #pc = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/pc/default.nix) {};
+              buildRebar3 = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/build-rebar3.nix) {};
+
+              erlang-ls = scope.callPackage erlang-ls-0-46-2 {};
+
+              fetchRebar3Deps = scope.callPackage fetchRebar3Deps { rebar3 = rebar3.rebar3; };
           })
       else
         throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
