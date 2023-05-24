@@ -186,7 +186,7 @@ let
 
               erlang-ls = scope.callPackage erlang-ls-0-46-2 {};
 
-              fetchRebar3Deps = scope.callPackage fetchRebar3Deps { rebar3 = rebar3.rebar3; };
+              fetchRebar3Deps = scope.callPackage fetchRebar3Deps { rebar3 = rebar3.rebar3WithPlugins {}; };
           })
       else
         throw ("nixerl does not currently have support for Erlang with major version: " + majorVersion);
