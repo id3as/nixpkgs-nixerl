@@ -1370,6 +1370,11 @@
     "sha256": "sxNVu/52kOMFKQYPLi5uXnR1mYTF2KlHUo4T7kh0KoY="
   },
   {
+    "version": "23.3.4.19",
+    "rev": "81dafd9a8dcbf2b57bf2b11ef7b0d4faf68b998a",
+    "sha256": "qFNVLPNnBFYmbEEZKZXIevEPIfEMBYJa0sqfWjIgsd8="
+  },
+  {
     "version": "24.0",
     "rev": "583cba31eb09c14abd0b217fe7ac2e9a60425d51",
     "sha256": "0p4p920ncsvls9q3czdc7wz2p7m15bi3nr4306hqddnxz1kxcm4w"
@@ -1555,6 +1560,11 @@
     "sha256": "1A73UOCPJnCRCAXTEPc3VTHsDJIWQjlPJXkuwQBV0r4="
   },
   {
+    "version": "24.3.4.12",
+    "rev": "27417cdfc528081a6795828032d8a13cc82048f9",
+    "sha256": "XrQvpIHCxXbcaP9cvX1nwl9LumZeVzlgRJwq2Dj0VoY="
+  },
+  {
     "version": "25.0",
     "rev": "4ed7957623e5ccbd420a09a506bd6bc9930fe93c",
     "sha256": "1nf72yiirdpxcs8m10xc04ryghxxc73x954x38m5a6fhv2hfhp2n"
@@ -1650,6 +1660,16 @@
     "sha256": "cuFeHwyAyS8R7rXcJJxzE7LTZGgDr4x3qMZx63PIowM="
   },
   {
+    "version": "25.3.2.1",
+    "rev": "3f0a5f136aa72f785ca86df64c4384db2e9c8bbb",
+    "sha256": "4PDK18/tekJHgNGECG5hv/HvwvteR+FeN6hlpB9FC9o="
+  },
+  {
+    "version": "25.3.2.2",
+    "rev": "ba144817d5478b15a50ef0c398d925232005277e",
+    "sha256": "TeDszsF9X4ExnOfP20ujlJpfxKK1zwhHHnPAbSnm/YQ="
+  },
+  {
     "version": "26.0",
     "rev": "8c0ea6bd3306cfd6ca19730d180a2a93a716e1ee",
     "sha256": "7z5LkCLyjqGlo48XlcwAUiu1FkmAAewEGnP30QDDme8="
@@ -1668,5 +1688,10 @@
     "version": "26.0-rc3",
     "rev": "1f897adc9df5e0de5d5a85633a8629a7e45ddeab",
     "sha256": "sVLOz65PN8KuFbjHjD1yquBZevwNmHBLh5luuPUNwQE="
+  },
+  {
+    "version": "26.0.1",
+    "rev": "b54b86ad4f1253f46fd4552a73923756660c1d53",
+    "sha256": "uvBJu3hAg2L2yuh/D42tEy2Gr3Adk9/o/ssgy60T4rY="
   }
 ]
