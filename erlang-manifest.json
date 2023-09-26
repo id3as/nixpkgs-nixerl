@@ -1680,6 +1680,21 @@
     "sha256": "TX63ju8WxqA+cBKg/0veYL0XtVgf4s/BlaNY5Pjuybw="
   },
   {
+    "version": "25.3.2.4",
+    "rev": "9e6d04dd18bef6136fc2b45cc60fe1348c4664a7",
+    "sha256": "U0hzGrLcJZndCGXz/4b9yXy21QGXbKAtc01H1QnwO4A="
+  },
+  {
+    "version": "25.3.2.5",
+    "rev": "5cb360d524a5777ed4243ac03a0162a95f545a16",
+    "sha256": "fnyWyJ+QsaJk2/LK8jOuxZmt3AFXmeubdeoYSGid/0A="
+  },
+  {
+    "version": "25.3.2.6",
+    "rev": "fd0e27a5c1ca7afde30b10c1b33a35ebb3313fd1",
+    "sha256": "iImrVaoS5bajaZZQoZoG3VzWHFmWvId8xQPKLhl9iQo="
+  },
+  {
     "version": "26.0",
     "rev": "8c0ea6bd3306cfd6ca19730d180a2a93a716e1ee",
     "sha256": "7z5LkCLyjqGlo48XlcwAUiu1FkmAAewEGnP30QDDme8="
@@ -1708,5 +1723,10 @@
     "version": "26.0.2",
     "rev": "d051172925a5c84b2f21850a188a533f885f201c",
     "sha256": "GzF/cpTUe5hoocDK5aio/lo8oYFeTr+HkftTYpQnOdA="
+  },
+  {
+    "version": "26.1",
+    "rev": "e962af35263618665c1df57df5135c0c703ad502",
+    "sha256": "GECxenOxwZ0A7cY5Z/amthNezGVPsmZWB5gHayy78cI="
   }
 ]

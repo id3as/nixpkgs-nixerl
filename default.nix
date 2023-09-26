@@ -23,6 +23,8 @@ let
 
   erlang-ls-0-46-2 = (import ./erlang-ls/erlang-ls-0.46.2.nix);
 
+  erlang-ls-0-48-1 = (import ./erlang-ls/erlang-ls-0.48.1.nix);
+
   beam = (import ./lib/imported-from-nixpkgs/development/beam-modules/lib.nix) self super;
 
   erlang18 = beam.callErlang (import lib/imported-from-nixpkgs/development/interpreters/erlang/R18.nix) {
@@ -184,7 +186,7 @@ let
               #pc = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/pc/default.nix) {};
               buildRebar3 = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/build-rebar3.nix) {};
 
-              erlang-ls = scope.callPackage erlang-ls-0-46-2 {};
+              erlang-ls = scope.callPackage erlang-ls-0-48-1 {};
 
               fetchRebar3Deps = scope.callPackage fetchRebar3Deps { rebar3 = rebar3.rebar3WithPlugins {}; };
           })
