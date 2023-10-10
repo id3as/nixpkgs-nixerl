@@ -176,6 +176,7 @@ let
           super.lib.makeScope newScope (scope:
             let
               rebar3 = scope.callPackage rebar3-21 {};
+              buildRebar3 = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/build-rebar3.nix) {rebar3WithPlugins = rebar3.rebar3WithPlugins;};
             in
             {
               erlang = erlang26.override { inherit version sha256; };
@@ -184,9 +185,9 @@ let
 
               # Needed by erlang-ls
               #pc = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/pc/default.nix) {};
-              buildRebar3 = scope.callPackage (import ./lib/imported-from-nixpkgs/development/beam-modules/build-rebar3.nix) {};
+              buildRebar3 = buildRebar3;
 
-              erlang-ls = scope.callPackage erlang-ls-0-48-1 {};
+              erlang-ls = scope.callPackage erlang-ls-0-48-1 { rebar3 = rebar3; buildRebar3 = buildRebar3;};
 
               fetchRebar3Deps = scope.callPackage fetchRebar3Deps { rebar3 = rebar3.rebar3WithPlugins {}; };
           })
